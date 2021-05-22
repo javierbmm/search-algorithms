@@ -1,0 +1,11 @@
+body {
+    background-color: #fcecdd;
+}
+
+.city-btn {
+    background-color: #ffc288;
+}
+
+.city-btn-active {
+    background-color: #ff6701;
+}
