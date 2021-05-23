@@ -1,5 +1,114 @@
+import { cities, connections } from "./nodes.js";
+
+let citiesCopy = [];
+let path = [];
+
+/*
+    fromCity and toCity are json city objects from the cities array
+ */
 export function findASearchPath(fromCity, toCity){
-    console.log(fromCity, toCity)
+    console.log("fromCity", fromCity)
+    citiesCopy = cities.slice();
+    //From the starting point, calculate the total cost of the route for each child on the way
+    //If the child was already checked, set the 'checked' attribute to true
+    calculateHeuristicValueForEachCity(toCity);
+    console.log(citiesCopy)
+    console.log(cities)
+    //Setting the checked value to true of the first from city, using the findCityInObj array
+    findCityObjInTheArray(fromCity.name);
+    console.log("path", path);
+    path.push(fromCity)
+
+    let child = findBestChild(fromCity, toCity);
+    path.push(child.city);
+    console.log(toCity.name)
+    while(child.city.name != toCity.name){
+        child = findBestChild(child.city, toCity);
+        if(child != null) {
+            console.log("child: ", child)
+            path.push(child.city);
+            console.log("path: ", path);
+        }else{
+            break;
+        }
+    }
+
+    console.log("Final path", path)
+    path = [];
+    citiesCopy = [];
+    console.log("citiesCopy", citiesCopy)
+}
+
+/*
+    This function assigns heuristic values for each city before finding the best path
+ */
+function calculateHeuristicValueForEachCity(toCity){
+    citiesCopy.forEach(city => {
+        city.heuristic = heuristicDistance(
+            city.latitude,
+            city.longitude,
+            toCity.latitude,
+            toCity.longitude
+        )
+    })
+}
+
+/*
+    Finding the fastest path of the city children
+*/
+function findBestChild(city, toCity){
+    let children = [];
+    connections.forEach(connection => {
+        if(connection.from == city.name){
+            let cityObj = findCityObjInTheArray(connection.to)
+            if(cityObj != null) {
+                let child = {
+                    "city": cityObj,
+                    "cost": calculateTotalCost(cityObj.heuristic, connection.distance)
+                }
+                children.push(child);
+            }
+        }
+    })
+    //console.log(children)
+
+    return children.length != 0 ? findMinCostChild(children, toCity) : null;
+}
+
+/*
+    Finding the city in the array, this function is used to find children of the city
+    It is also setting the checked value to true, so that we don't loop in the graph
+ */
+function findCityObjInTheArray(cityName){
+    let filteredCity = citiesCopy.filter(city => {
+        if(!city.checked) {
+            if (city.name == cityName) {
+                city.checked = true;
+                return city;
+            }
+        }
+    });
+
+    console.log(filteredCity)
+
+    return filteredCity ? filteredCity[0] : null;
+}
+
+function calculateTotalCost(heuristic, distance){
+    return heuristic != 0? heuristic + distance: 0;
+}
+
+function findMinCostChild(children, toCity){
+    let min = children[0].cost;
+    let child = children[0];
+
+    for (let i = 1; i < children.length; i++) {
+        if(children[i].cost < min){
+            min = children[i].cost;
+            child = children[i]
+        }
+    }
+    return child;
 }
 
 function heuristicDistance(lat1, lon1, lat2, lon2){

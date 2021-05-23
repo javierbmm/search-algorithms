@@ -68,16 +68,28 @@ function findPath(){
     //Firstly check if the cities are the same
     let fromCityHeader = document.getElementById("from-city");
     let fromCity = fromCityHeader.getElementsByClassName("city-btn city-btn-active")[0];
-    console.log(fromCity)
     let toCityHeader = document.getElementById("to-city");
     let toCity = toCityHeader.getElementsByClassName("city-btn city-btn-active")[0];
-    console.log(toCity);
 
-    let header = document.getElementById("algorithm-options");
-    let algorithms = header.getElementsByClassName("algorithm-btn");
-    for(let i = 0; i < algorithms.length; i++){
-        if(algorithms[i].id == "a_search"){
-            findASearchPath(fromCity.value, toCity.value);
+    if(fromCity.value === toCity.value){
+        alert("Cannot calculate the route to the same city");
+    }else {
+        //Find the json objects of toCity and fromCity in the cities array
+        data.cities.forEach(city => {
+            if(city.name == fromCity.value){
+                fromCity = city;
+            }else if(city.name == toCity.value){
+                toCity = city;
+            }
+        })
+
+        let header = document.getElementById("algorithm-options");
+        let algorithms = header.getElementsByClassName("algorithm-btn");
+
+        for (let i = 0; i < algorithms.length; i++) {
+            if (algorithms[i].id == "a_search") {
+                findASearchPath(fromCity, toCity);
+            }
         }
     }
 }

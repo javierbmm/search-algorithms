@@ -131,6 +131,12 @@
     },
     {
       "from": "Málaga",
+      "to": "Murcia",
+      "distance": 408012,
+      "duration": 14694
+    },
+    {
+      "from": "Málaga",
       "to": "Seville",
       "distance": 205844,
       "duration": 8261
