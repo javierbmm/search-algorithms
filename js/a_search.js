@@ -22,7 +22,7 @@ export function findASearchPath(fromCity, toCity){
     let child = findBestChild(fromCity, toCity);
     path.push(child.city);
     console.log(toCity.name)
-    while(child.city.name != toCity.name){
+    while(child.city.name !== toCity.name){
         child = findBestChild(child.city, toCity);
         if(child != null) {
             console.log("child: ", child)
@@ -34,8 +34,10 @@ export function findASearchPath(fromCity, toCity){
     }
 
     console.log("Final path", path)
-    path = [];
-    citiesCopy = [];
+
+    // Emptying arrays:
+    path.splice(0, path.length);
+    citiesCopy.splice(0, citiesCopy.length);
     console.log("citiesCopy", citiesCopy)
 }
 
