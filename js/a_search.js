@@ -7,27 +7,29 @@ let path = [];
     fromCity and toCity are json city objects from the cities array
  */
 export function findASearchPath(fromCity, toCity){
-    console.log("fromCity", fromCity)
-    citiesCopy = cities.slice();
+    path.splice(0, path.length);
+
+    // console.log("fromCity", fromCity)
+    citiesCopy = JSON.parse(JSON.stringify(cities)); //
     //From the starting point, calculate the total cost of the route for each child on the way
     //If the child was already checked, set the 'checked' attribute to true
     calculateHeuristicValueForEachCity(toCity);
-    console.log(citiesCopy)
-    console.log(cities)
+    // console.log(citiesCopy)
+    // console.log(cities)
     //Setting the checked value to true of the first from city, using the findCityInObj array
     findCityObjInTheArray(fromCity.name);
-    console.log("path", path);
+    // console.log("path", path);
     path.push(fromCity)
 
     let child = findBestChild(fromCity, toCity);
     path.push(child.city);
-    console.log(toCity.name)
+    // console.log(toCity.name)
     while(child.city.name !== toCity.name){
         child = findBestChild(child.city, toCity);
         if(child != null) {
-            console.log("child: ", child)
+            // console.log("child: ", child)
             path.push(child.city);
-            console.log("path: ", path);
+            // console.log("path: ", path);
         }else{
             break;
         }
@@ -36,9 +38,8 @@ export function findASearchPath(fromCity, toCity){
     console.log("Final path", path)
 
     // Emptying arrays:
-    path.splice(0, path.length);
     citiesCopy.splice(0, citiesCopy.length);
-    console.log("citiesCopy", citiesCopy)
+    // console.log("citiesCopy", citiesCopy)
 }
 
 /*
