@@ -8,11 +8,14 @@ let path = [];
  */
 export function findASearchPath(fromCity, toCity){
     path.splice(0, path.length);
+    removePrevPath();
 
     // console.log("fromCity", fromCity)
     citiesCopy = JSON.parse(JSON.stringify(cities)); //
     //From the starting point, calculate the total cost of the route for each child on the way
     //If the child was already checked, set the 'checked' attribute to true
+    let timeBegin = performance.now()
+
     calculateHeuristicValueForEachCity(toCity);
     // console.log(citiesCopy)
     // console.log(cities)
@@ -35,11 +38,51 @@ export function findASearchPath(fromCity, toCity){
         }
     }
 
+    let timeFinal = performance.now();
+
+    //console.log("It took " + (timeFinal - timeBegin ) + " miliseconds");
+    displayFinalPath();
+    displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3))
     console.log("Final path", path)
 
     // Emptying arrays:
     citiesCopy.splice(0, citiesCopy.length);
     // console.log("citiesCopy", citiesCopy)
+}
+
+/*
+    Displaying the final path in html
+ */
+function displayFinalPath(){
+    let header = document.getElementById("final-path");
+
+    for(let i=0; i<path.length; i++){
+        let city = path[i];
+        let pathItem = document.createElement("p");
+        let cityText = document.createTextNode(city.name);
+        pathItem.appendChild(cityText)
+        pathItem.title = city.name;
+        header.appendChild(pathItem)
+    }
+}
+/*
+    Deleting the previous path from html
+ */
+function removePrevPath(){
+    let header = document.getElementById("final-path");
+    header.textContent = ''
+}
+
+/*
+    Displaying total time of the algorithm execution
+ */
+
+function displayTotalAlgorithmExec(time){
+    let header = document.getElementById("final-path");
+    let execItem = document.createElement("p");
+    let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
+    execItem.appendChild(text)
+    header.appendChild(execItem)
 }
 
 /*
@@ -66,7 +109,7 @@ function findBestChild(city, toCity){
             let cityObj = findCityObjInTheArray(connection.to)
             if(cityObj != null) {
                 let child = {
-                    "city": cityObj,
+                    "city": {...cityObj, "distance": connection.distance },
                     "cost": calculateTotalCost(cityObj.heuristic, connection.distance)
                 }
                 children.push(child);
@@ -91,8 +134,6 @@ function findCityObjInTheArray(cityName){
             }
         }
     });
-
-    console.log(filteredCity)
 
     return filteredCity ? filteredCity[0] : null;
 }
