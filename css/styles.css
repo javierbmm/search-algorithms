@@ -1,5 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Gruppo&family=Space+Mono&display=swap');
 body {
     background-color: #fcecdd;
+}
+
+button {
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    min-width: 90px;
+    font-family: 'Space Mono', monospace;
+}
+
+p {
+    font-family: 'Space Mono', monospace;
+}
+h1 {
+    font-family: 'Gruppo', cursive;
+}
+
+button:hover {
+    box-shadow: 2px 1px 4px 2px rgb(0 0 0 / 5%);
+}
+
+button#search-btn {
+    background-color: #ff6701;
+    min-width: 200px;
+    margin-top: 20px;
+}
+
+div#from-city, #to-city {
+    gap: 5px;
+    display: flex;
+    flex-flow: wrap;
 }
 
 .city-btn {
