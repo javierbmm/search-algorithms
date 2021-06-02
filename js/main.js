@@ -98,10 +98,31 @@ function findPath(){
 
         let finder = {
             a_search : (fromCity,toCity) => findASearchPath(fromCity, toCity),
-            csp : (fromCity,toCity) => { while(findCSPSearchPath(fromCity, toCity).isSolved()) ; }
+            csp : (fromCity,toCity) => {
+                let timeBegin = performance.now();
+                while(findCSPSearchPath(fromCity, toCity).isSolved()) ;
+                let timeFinal = performance.now();
+
+                displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3));
+            }
         }
 
         finder[algorithm](fromCity, toCity);
     }
+}
+
+
+
+/*
+    Displaying total time of the algorithm execution
+ */
+
+function displayTotalAlgorithmExec(time){
+    let header = document.getElementById("final-path");
+    let execItem = document.createElement("p");
+    let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
+    execItem.appendChild(text);
+
+    header.appendChild(execItem)
 }
 

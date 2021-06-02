@@ -46,15 +46,13 @@ export function findCSPSearchPath(from, to){
     solution.path.push(from);
     solution.getLast().checked = true;
 
-    let timeBegin = performance.now();
     // if solved:
     if(backtrack(problem, solution) === true) {
         removePrevPath();
         displayFinalPath(solution.path);
         // Saving best
         findCSPSearchPath.totalPaths = solution.distanceTraveled;
-        let timeFinal = performance.now();
-        displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3), solution.distanceTraveled)
+        displayTotaldistance(solution.distanceTraveled)
     }
 
     // Saving previous
@@ -118,16 +116,12 @@ function displayFinalPath(path){
     Displaying total time of the algorithm execution
  */
 
-function displayTotalAlgorithmExec(time, totalDistance){
+function displayTotaldistance(totalDistance){
     let header = document.getElementById("final-path");
-    let execItem = document.createElement("p");
     let distItem = document.createElement("p");
-    let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
-    let text2 = document.createTextNode("Total distance = " + totalDistance + "m");
-    execItem.appendChild(text);
-    distItem.appendChild(text2);
+    let text = document.createTextNode("Total distance = " + totalDistance + "m");
+    distItem.appendChild(text);
 
-    header.appendChild(execItem)
     header.appendChild(distItem)
 }
 
