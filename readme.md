@@ -49,7 +49,7 @@ eliminate loops. Another constraint was to not travel more than the sum of all t
 want to find a path that is less than or equal to the best path cost so we cannot take distances that are larger than
 needed.
 
-####Heuristic value
+#### Heuristic value
 
 In the case of our implementation, we calculated the heuristic distance between the node and the destination node as the
 straight line between them based on the longitude and latitude values.
