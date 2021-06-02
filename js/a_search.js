@@ -1,4 +1,5 @@
 import { cities, connections } from "./nodes.js";
+import { displayFinalPath, removePrevPath, displayTotalAlgorithmExec, displayTotaldistance} from "./utils.js";
 
 let citiesCopy = [];
 let path = [];
@@ -44,8 +45,9 @@ export function findASearchPath(fromCity, toCity){
     let timeFinal = performance.now();
 
     //console.log("It took " + (timeFinal - timeBegin ) + " miliseconds");
-    displayFinalPath();
-    displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3), totalDistance)
+    displayFinalPath(path);
+    displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3))
+    displayTotaldistance(totalDistance);
     console.log("Final path", path)
     console.log(totalDistance);
     // Emptying arrays:
@@ -53,45 +55,7 @@ export function findASearchPath(fromCity, toCity){
     // console.log("citiesCopy", citiesCopy)
 }
 
-/*
-    Displaying the final path in html
- */
-function displayFinalPath(){
-    let header = document.getElementById("final-path");
 
-    for(let i=0; i<path.length; i++){
-        let city = path[i];
-        let pathItem = document.createElement("p");
-        let cityText = document.createTextNode(city.name);
-        pathItem.appendChild(cityText)
-        pathItem.title = city.name;
-        header.appendChild(pathItem)
-    }
-}
-/*
-    Deleting the previous path from html
- */
-function removePrevPath(){
-    let header = document.getElementById("final-path");
-    header.textContent = ''
-}
-
-/*
-    Displaying total time of the algorithm execution
- */
-
-function displayTotalAlgorithmExec(time, totalDistance){
-    let header = document.getElementById("final-path");
-    let execItem = document.createElement("p");
-    let distItem = document.createElement("p");
-    let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
-    let text2 = document.createTextNode("Total distance = " + totalDistance + "m");
-    execItem.appendChild(text);
-    distItem.appendChild(text2);
-
-    header.appendChild(execItem)
-    header.appendChild(distItem)
-}
 
 /*
     This function assigns heuristic values for each city before finding the best path

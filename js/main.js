@@ -1,6 +1,7 @@
 import * as data from './nodes.js';
 import { findASearchPath } from './a_search.js';
 import { findCSPSearchPath } from './csp.js';
+import {removePrevPath, displayTotalAlgorithmExec, removeExecTime} from "./utils.js";
 
 loadCities();
 addActiveClass();
@@ -112,30 +113,15 @@ function findPath(){
         let finder = {
             a_search : (fromCity,toCity) => findASearchPath(fromCity, toCity),
             csp : (fromCity,toCity) => {
+                removeExecTime();
                 let timeBegin = performance.now();
                 while(findCSPSearchPath(fromCity, toCity).isSolved()) ;
                 let timeFinal = performance.now();
-
                 displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3));
             }
         }
 
         finder[algorithm](fromCity, toCity);
     }
-}
-
-
-
-/*
-    Displaying total time of the algorithm execution
- */
-
-function displayTotalAlgorithmExec(time){
-    let header = document.getElementById("final-path");
-    let execItem = document.createElement("p");
-    let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
-    execItem.appendChild(text);
-
-    header.appendChild(execItem)
 }
 

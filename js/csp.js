@@ -113,7 +113,7 @@ function displayFinalPath(path){
 }
 
 /*
-    Displaying total time of the algorithm execution
+    Displaying total distance of the path
  */
 
 function displayTotaldistance(totalDistance){
