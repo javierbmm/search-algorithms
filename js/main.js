@@ -1,8 +1,18 @@
-import * as data from './nodes.js'
-import { findASearchPath } from './a_search.js'
+import * as data from './nodes.js';
+import { findASearchPath } from './a_search.js';
+import { findCSPSearchPath } from './csp.js';
 
 loadCities();
 addActiveClass();
+Array.from(document.getElementsByClassName("algorithm-btn")).forEach(function(item) {
+    item.addEventListener('click', () => { setAlgorithm(item)});
+});
+
+var algorithm = "a_search";
+
+function setAlgorithm(btn){
+    algorithm = btn.id;
+}
 
 function loadCities() {
     //Setting the city buttons to be able to choose
@@ -86,11 +96,12 @@ function findPath(){
         let header = document.getElementById("algorithm-options");
         let algorithms = header.getElementsByClassName("algorithm-btn");
 
-        for (let i = 0; i < algorithms.length; i++) {
-            if (algorithms[i].id == "a_search") {
-                findASearchPath(fromCity, toCity);
-            }
+        let finder = {
+            a_search : (fromCity,toCity) => findASearchPath(fromCity, toCity),
+            csp : (fromCity,toCity) => { while(findCSPSearchPath(fromCity, toCity).isSolved()) ; }
         }
+
+        finder[algorithm](fromCity, toCity);
     }
 }
 

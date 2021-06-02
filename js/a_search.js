@@ -2,7 +2,7 @@ import { cities, connections } from "./nodes.js";
 
 let citiesCopy = [];
 let path = [];
-
+let totalDistance = 0;
 /*
     fromCity and toCity are json city objects from the cities array
  */
@@ -12,6 +12,7 @@ export function findASearchPath(fromCity, toCity){
 
     // console.log("fromCity", fromCity)
     citiesCopy = JSON.parse(JSON.stringify(cities)); //
+    console.log(citiesCopy);
     //From the starting point, calculate the total cost of the route for each child on the way
     //If the child was already checked, set the 'checked' attribute to true
     let timeBegin = performance.now()
@@ -27,11 +28,13 @@ export function findASearchPath(fromCity, toCity){
     let child = findBestChild(fromCity, toCity);
     path.push(child.city);
     // console.log(toCity.name)
+    totalDistance = 0;
     while(child.city.name !== toCity.name){
         child = findBestChild(child.city, toCity);
         if(child != null) {
             // console.log("child: ", child)
             path.push(child.city);
+            totalDistance += child.city.distance;
             // console.log("path: ", path);
         }else{
             break;
@@ -42,9 +45,9 @@ export function findASearchPath(fromCity, toCity){
 
     //console.log("It took " + (timeFinal - timeBegin ) + " miliseconds");
     displayFinalPath();
-    displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3))
+    displayTotalAlgorithmExec((timeFinal-timeBegin).toFixed(3), totalDistance)
     console.log("Final path", path)
-
+    console.log(totalDistance);
     // Emptying arrays:
     citiesCopy.splice(0, citiesCopy.length);
     // console.log("citiesCopy", citiesCopy)
@@ -77,12 +80,17 @@ function removePrevPath(){
     Displaying total time of the algorithm execution
  */
 
-function displayTotalAlgorithmExec(time){
+function displayTotalAlgorithmExec(time, totalDistance){
     let header = document.getElementById("final-path");
     let execItem = document.createElement("p");
+    let distItem = document.createElement("p");
     let text = document.createTextNode("The algorithm took " + time + " milliseconds to be executed");
-    execItem.appendChild(text)
+    let text2 = document.createTextNode("Total distance = " + totalDistance + "m");
+    execItem.appendChild(text);
+    distItem.appendChild(text2);
+
     header.appendChild(execItem)
+    header.appendChild(distItem)
 }
 
 /*
@@ -125,7 +133,7 @@ function findBestChild(city, toCity){
     Finding the city in the array, this function is used to find children of the city
     It is also setting the checked value to true, so that we don't loop in the graph
  */
-function findCityObjInTheArray(cityName){
+export function findCityObjInTheArray(cityName){
     let filteredCity = citiesCopy.filter(city => {
         if(!city.checked) {
             if (city.name == cityName) {
