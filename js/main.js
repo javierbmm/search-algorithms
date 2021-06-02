@@ -1,7 +1,7 @@
 import * as data from './nodes.js';
 import { findASearchPath } from './a_search.js';
 import { findCSPSearchPath } from './csp.js';
-import {removePrevPath, displayTotalAlgorithmExec, removeExecTime} from "./utils.js";
+import { displayTotalAlgorithmExec, removeExecTime} from "./utils.js";
 
 loadCities();
 addActiveClass();
