@@ -9,3 +9,11 @@ body {
 .city-btn-active {
     background-color: #ff6701;
 }
+
+.algorithm-btn {
+    background-color: #ffc288;
+}
+
+.algorithm-btn-active {
+    background-color: #ff6701;
+}

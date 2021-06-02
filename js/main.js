@@ -4,6 +4,7 @@ import { findCSPSearchPath } from './csp.js';
 
 loadCities();
 addActiveClass();
+addActiveClassAlg();
 Array.from(document.getElementsByClassName("algorithm-btn")).forEach(function(item) {
     item.addEventListener('click', () => { setAlgorithm(item)});
 });
@@ -72,6 +73,18 @@ function addActiveClass(){
 
     //Setting the search-btn event listener
     document.getElementById("search-btn").addEventListener("click", findPath);
+}
+
+function addActiveClassAlg(){
+    let header = document.getElementById("algorithm-options");
+    let buttons = header.getElementsByClassName("algorithm-btn");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("click", function() {
+            let current = header.getElementsByClassName("algorithm-btn-active");
+            current[0].className = current[0].className.replace(" algorithm-btn-active", "");
+            this.className += " algorithm-btn-active";
+        });
+    }
 }
 
 function findPath(){
